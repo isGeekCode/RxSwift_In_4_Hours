@@ -28,14 +28,22 @@ class AsyncViewController: UIViewController {
     @IBOutlet var countLabel: UILabel!
 
     // MARK: - IBAction
-
+    /// 동기버튼
     @IBAction func onLoadSync(_ sender: Any) {
         let image = loadImage(from: IMAGE_URL)
         imageView.image = image
     }
 
+    /// 비동기버튼
     @IBAction func onLoadAsync(_ sender: Any) {
-        // TODO: async
+        // MARK: async
+        DispatchQueue.global().async { // 동기
+            let image = self.loadImage(from: self.IMAGE_URL)
+            
+            DispatchQueue.main.async { // 비동기
+                self.imageView.image = image
+            }
+        }
     }
 
     private func loadImage(from imageUrl: String) -> UIImage? {
